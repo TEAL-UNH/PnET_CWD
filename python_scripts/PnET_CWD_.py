@@ -27,16 +27,20 @@ Set model_version =
 'no bark'
 'no snags or bark'
 '''
-model_version = 'default'
+model_version = 'no snags'
 
 if model_version == 'no snags':
     dynam_in = dynam_in.set_index('Parameter')['No Snags'].to_dict()
+    output = out_path / 'no_snags_age_output'
 elif model_version == 'no bark':
     dynam_in = dynam_in.set_index('Parameter')['No Bark'].to_dict()
+    output = out_path / 'no_bark_age_output'
 elif model_version == 'no snags or bark':
     dynam_in = dynam_in.set_index('Parameter')['No Snags or Bark'].to_dict()
+    output = out_path / 'no_snags_or_bark_age_output'
 else:
     dynam_in = dynam_in.set_index('Parameter')['Default'].to_dict()
+    output = out_path / 'default_age_output'
 
 
 
@@ -353,7 +357,7 @@ age['bark_necromass_N'] = age['standing_necromass_bark_N'] + age['downed_necroma
 age['total_necromass'] = age['wood_necromass'] + age['bark_necromass']
 age['total_necromass_N'] = age['wood_necromass_N'] + age['bark_necromass_N']
 
-age.to_csv(out_path / 'Age_Output.csv')
+age.to_csv(output)
 
 
 ''' Plot it up '''
