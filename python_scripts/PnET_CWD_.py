@@ -26,8 +26,14 @@ Set model_version =
 'no snags'
 'no bark'
 'no snags or bark'
+
+Specify if results should be written to .csv
+write_results = 
+'yes'
+'no'
 '''
 model_version = 'no snags'
+write_results = 'no'
 
 if model_version == 'no snags':
     dynam_in = dynam_in.set_index('Parameter')['No Snags'].to_dict()
@@ -357,8 +363,6 @@ age['bark_necromass_N'] = age['standing_necromass_bark_N'] + age['downed_necroma
 age['total_necromass'] = age['wood_necromass'] + age['bark_necromass']
 age['total_necromass_N'] = age['wood_necromass_N'] + age['bark_necromass_N']
 
-age.to_csv(output)
-
 
 ''' Plot it up '''
 plt.style.use('seaborn-whitegrid') #plot style
@@ -374,7 +378,11 @@ plt.scatter(x=age['stand_age'], y=age['wood_necromass_N'])
 plt.scatter(x=age['stand_age'], y=age['bark_necromass_N'])
 plt.scatter(x=age['stand_age'], y=age['snag_fall_rate'])
 
-
+if write_results == 'yes':
+    print('Writing new results to ', output, '\n')
+    age.to_csv(output)
+else:
+    print('New results not written to output \n')
 
 
 print('Time to run:', time.perf_counter() - st)
